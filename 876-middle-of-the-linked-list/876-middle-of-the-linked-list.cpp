@@ -11,7 +11,19 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        //Naive approach
+       ListNode *fast_pointer=head;
+       ListNode *slow_pointer=head;
+      while(fast_pointer!=NULL&&fast_pointer->next!=NULL)
+      {
+          fast_pointer=fast_pointer->next->next;
+          slow_pointer=slow_pointer->next;
+      }
+        return slow_pointer;
+    }
+};
+
+/*
+ //Naive approach
         int count=0;
         ListNode *temp=head;
         while(temp!=NULL)
@@ -28,6 +40,4 @@ public:
         }
         ListNode *ans=temp;
         return ans;
-        
-    }
-};
+*/

@@ -87,17 +87,18 @@ class Solution
     Node *slow = head, *fast = head;
 
     // Move slow and fast 1 and 2 steps
-    // ahead respectively.
-    slow = slow->next;
-    fast = fast->next->next;
+    // // ahead respectively.
+    // slow = slow->next;
+    // fast = fast->next->next;
 
     // Search for loop using slow and
     // fast pointers
     while (fast && fast->next) {
-        if (slow == fast)
-            break;
         slow = slow->next;
         fast = fast->next->next;
+        if (slow == fast)
+            break;
+       
     }
 
     /* If loop exists */

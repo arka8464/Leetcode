@@ -9,19 +9,18 @@
  * };
  */
 class Solution {
+    
 public:
     ListNode* swapPairs(ListNode* head) {
-        if(!head||!head->next)
+        
+   if(!head||!head->next)
             return head;
-      
+        ListNode* f_head=head->next;
+        head->next=swapPairs(head->next->next);
+        f_head->next=head;
         
-        ListNode*new_head=head->next;
-         ListNode* temp=head->next->next;
-        new_head->next=head;
-     
-        head->next=swapPairs(temp);
         
-        return new_head;
+        return f_head;
 
     }
 };

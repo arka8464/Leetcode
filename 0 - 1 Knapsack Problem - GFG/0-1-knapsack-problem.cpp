@@ -9,6 +9,8 @@ class Solution
     public:
      
     //Function to return max value that can be put in knapsack of capacity W.
+      
+    //Function to return max value that can be put in knapsack of capacity W.
       int dp[1000][1000];
       Solution()
           {

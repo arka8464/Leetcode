@@ -56,10 +56,8 @@ class Solution{
         {
         findPath(0,0,m,ans,temp,n,v);
         }
-        else
-        {
-            return ans;
-        }
+        
+        
         return ans;
     }
 };

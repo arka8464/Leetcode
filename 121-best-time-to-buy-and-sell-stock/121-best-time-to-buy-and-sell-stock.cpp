@@ -1,18 +1,14 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-      int pist=0;
-        int max_p=0;
-        int smollest=INT_MAX;
+        //doing using kadane s algo
+      int maxP=0;
+        int mini=INT_MAX;
         for(int i=0;i<prices.size();i++)
         {
-            if(prices[i]<smollest)
-                smollest=prices[i];
-            pist=prices[i]-smollest;
-            if(pist>max_p)
-                max_p=pist;
+            mini=min(mini,prices[i]);
+            maxP=max(maxP,prices[i]-mini);
         }
-        return max_p;
-        
+        return maxP;
     }
 };

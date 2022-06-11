@@ -7,7 +7,7 @@ public:
         {
             if(nums[i]==1)
                 c+=1;
-            if(nums[i]==0)
+           else
                 c=0;
             mc=max(c,mc);
         }

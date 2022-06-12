@@ -4,48 +4,25 @@ using namespace std;
 
  // } Driver Code Ends
 class Solution{   
-public://done  using sliding window method
-    int maximumSumSubarray(int k, vector<int> &arr , int n){
-    //   int i=0,j=0,sum=0;
-    //   while(j<=K-1)
-    //   {
-    //       sum+=Arr[j];
-    //       j++;
-    //   }
-    //   j--;
-    //   int maxSum =sum;
-    // while(j<N)
-    //   {
-    //       j++;
-    //       sum-=Arr[i];
-    //       sum+=Arr[j];
-    //                  i++;
-          
-    //       if(sum>maxSum)
-    //         maxSum=sum;
-    //   }
-      
-    //   return maxSum;
-    //     // code here 
-     int curr_sum=0;
-       int max_sum=INT_MIN;
-       for(int i=0; i<k; i++)
-       {
-           curr_sum+=arr[i];
+public:
+    long long maximumSumSubarray(int k, vector<int> &arr , int N){
+       int i=0,j=0;
+      long long int curr_Sum=0;
+       
+       while(j<=k+i-1){
+        
+         curr_Sum+=arr[j];
+          j++;
        }
-       max_sum = max(curr_sum,max_sum);
-       int start=0;
-       for(int i=k; i<n; i++)
+      long long int max_Sum=curr_Sum;
+       for(;j<arr.size();i++,j++)
        {
-           curr_sum+=-arr[start]+arr[i];
-           if(curr_sum>max_sum)
-           {
-               max_sum = curr_sum;
-           }
            
-           start++;
+            curr_Sum-=arr[i];
+            curr_Sum+=arr[j];
+           max_Sum=max(curr_Sum,max_Sum);
        }
-       return max_sum;
+       return max_Sum;
     }
 };
 

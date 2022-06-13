@@ -1,18 +1,36 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-         vector<int> v(256,-1);
-        int l=0,r=0;
+    int lengthOfLongestSubstring(string s) 
+    {
+        if(s.empty())
+            return 0;
+        int i=0,j=0,maxi=INT_MIN;
         int n=s.size();
-        int len=0;
-        while(r<n)
+        unordered_map<char,int>m;
+        while(j<n)
         {
-            if(v[s[r]]!=-1)
-                l=max(v[s[r]]+1,l);
-            v[s[r]]=r;
-            len=max(len,r-l+1);
-            r++;
+            m[s[j]]++;
+            // cout<<"i "<<i<<" j "<<j<<endl;
+            if(m.size()>j-i+1)//if number of unique characters is lesser than the window size we increase the window size
+                j++;
+            else if(m.size()==j-i+1)
+            {
+                maxi=max(maxi,j-i+1);
+                j++;
+            }
+            else if (m.size()<j-i+1)//this means that the number of unique character is lesser than the window size 
+            {
+                while(m.size()<j-i+1)
+                {
+                    m[s[i]]--;
+                    if(m[s[i]]==0)
+                      m.erase(s[i]);
+                    i++;
+                }
+                   j++;
+            }
         }
-        return len;
+   return maxi;
+    
     }
 };

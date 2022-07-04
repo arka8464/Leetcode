@@ -5,30 +5,26 @@ using namespace std;
  // } Driver Code Ends
 class Solution
 {
-public:
-
-void subsetSums(int ind, int sum, vector<int> &sumSubset, vector<int> &arr, int N)
-    {
-        if (ind == N)
-        {
-            sumSubset.push_back(sum);
-            return;
-        }
-        // if picked
-        subsetSums(ind + 1, sum + arr[ind], sumSubset, arr, N);
-            // cout<<"a"<<endl
-        // if not picked
-        subsetSums(ind + 1, sum, sumSubset, arr, N);
-    }
+    void subsetSums(int ind,vector<int>& arr, int size,int tempSum,vector<int>& ans)
     
-vector<int> subsetSums(vector<int> arr, int N)
     {
-        vector<int> sumSubset;
-         subsetSums(0, 0, sumSubset, arr, N);
-         sort(sumSubset.begin(),sumSubset.end());
-         return sumSubset;
+        if(ind==size)
+        {
+            ans.push_back(tempSum);
+            return ;
+        }
+        tempSum+=arr[ind];
+        subsetSums(ind+1,arr,  size, tempSum,ans);
+        tempSum-=arr[ind];
+        subsetSums(ind+1,arr,  size, tempSum,ans);
     }
-   
+public:
+    vector<int> subsetSums(vector<int> arr, int N)
+    {
+        vector<int> ans;
+        subsetSums(0,arr,arr.size(),0,ans);
+        return ans;
+    }
 };
 
 // { Driver Code Starts.

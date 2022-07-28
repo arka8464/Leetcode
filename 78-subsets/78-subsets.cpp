@@ -1,25 +1,22 @@
 class Solution {
+   
 public:
-           
- void solve(vector<vector<int>> &ans, vector<int>& nums, int cnt, vector<int> subset)
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
+        int n =nums.size();
+        int total_subsets=(1<<n);
+        for(int mask=0;mask<total_subsets;mask++)
         {
-            if(cnt==nums.size())   //traversed all elements
+            vector<int >temp;
+            for(int i=0;i<n;i++)
             {
-                ans.push_back(subset);
-                return;
+                if((mask&(1<<i))!=0)
+                {
+                   temp.push_back(nums[i]); 
+                }
             }
-            
-            solve(ans,nums,cnt+1,subset);   //choice 1: don't push current element
-            
-            subset.push_back(nums[cnt]);    //choice 2: push current element
-            solve(ans,nums,cnt+1,subset);      
+            ans.push_back(temp);
         }
-    
-        vector<vector<int>> subsets(vector<int>& nums) 
-        {
-            vector<vector<int>> ans;
-            solve(ans,nums,0,{});
-            return ans;
-        }
-    
+        return ans;
+    }
 };

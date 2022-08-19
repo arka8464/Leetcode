@@ -1,32 +1,24 @@
 class Solution {
-    int rob(int ind,vector<int>& dp,vector<int>& house)
+    int rob(int n,vector<int>& house,vector<int>& dp)
     {
-      
-        
-        if(ind==0)
-            return house[0];
-        
-        if(ind<0)
+        if(n==0)
+            return dp[n]=house[0];
+        if(n<0)
             return 0;
+        if(dp[n]!=-1)
+            return dp[n];
+        int picked=rob(n-2,house,dp)+house[n];
+                cout<<"hello"<<endl;
+
+        int notpicked=rob(n-1,house,dp);
+        return dp[n] = max(picked,notpicked);
         
-           if(dp[ind]!=-1)
-            return dp[ind];
-        
-
-     
-         int pickIndex = house[ind]+ rob(ind-2,dp,house);
-           
-
-          int notpickIndex =0+ rob(ind-1,dp,house);
-
-        return dp[ind]=max(pickIndex,notpickIndex);
-                
     }
 public:
     int rob(vector<int>& house) {
-        int n=house.size();
-        vector<int> dp(n,-1);
-     return rob(n-1,dp,house);
+       int n=house.size();
+        vector<int>dp(n,-1);
+       return rob(n-1,house,dp);
         
     }
 };

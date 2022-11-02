@@ -1,30 +1,51 @@
-#include<bits/stdc++.h>
 class Solution {
-    private:
-    void dfs(int x,int y,vector<vector<char>>& grid)
+
+private:
+void bfs(int row, int col, vector<vector<int>>& vis, vector<vector<char>> grid,int n, int m)
+{
+    vis[row][col] = 1;
+    queue<pair<int,int>> q;
+    q.push({row,col});
+
+    while(!q.empty())
     {
-         if(x<0||y<0||x>=grid.size()||y>=grid[0].size()||grid[x][y]=='0')return;
-        grid[x][y]='0';
-        dfs(x-1,y,grid);
-        dfs(x,y-1,grid);
-        dfs(x+1,y,grid);
-        dfs(x,y+1,grid);
+        row = q.front().first;
+        col = q.front().second;
+        q.pop();
+        int delrow[] = {1,0,-1,0};
+        int delcol[] = {0,-1,0,1};
+        for(int i=0;i<4;i++)
+        {
+            int nrow = row + delrow[i];
+            int ncol = col + delcol[i];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && grid[nrow][ncol]=='1')
+            {
+                vis[nrow][ncol] = 1;
+                q.push({nrow,ncol});
+            }
     }
+    }
+
+}
+
 public:
     int numIslands(vector<vector<char>>& grid) {
-       int ans=0;
-        for(int i=0;i<grid.size();i++)
+        int n = grid.size();
+        int m = grid[0].size();
+        int islands = 0;
+        vector<vector<int>> vis(n,vector<int>(m,0));
+
+        for(int i=0;i<n;i++)
         {
-             for(int j=0;j<grid[0].size();j++)
-             {
-                 
-                 if(grid[i][j]=='1')
-                 {
-                     ans++;
-                     dfs(i,j,grid);
-                 }
-             }
+            for(int j=0;j<m;j++)
+            {
+                if(!vis[i][j] && grid[i][j]=='1')
+                {
+                    islands++;
+                    bfs(i,j,vis,grid,n,m);
+                }
+            }
         }
-        return ans;
+        return islands;
     }
 };

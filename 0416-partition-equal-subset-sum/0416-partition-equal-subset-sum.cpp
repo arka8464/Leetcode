@@ -1,22 +1,17 @@
 class Solution {
-    bool f(int ind, int target, vector<int>& arr, vector<vector<int>> &dp){
-    if(target==0)
-        return true;
-    
-    if(ind == 0)
-        return arr[0] == target;
-    
-    if(dp[ind][target]!=-1)
-        return dp[ind][target];
+    bool f(vector<int>& a,int n,int k,vector<vector<int>>& dp)
+    {
+       if(k==0)return true;
+        if(n==0)return a[0]==k;
+        if( dp[n][k]!=-1)
+            return  dp[n][k];
+        bool pick=false;
+        bool notPick=f(a,n-1,k,dp);
+        if(a[n]<=k)
+            pick=f(a,n-1,k-a[n],dp);
         
-    bool notTaken = f(ind-1,target,arr,dp);
-    
-    bool taken = false;
-    if(arr[ind]<=target)
-        taken = f(ind-1,target-arr[ind],arr,dp);
-        
-    return dp[ind][target]= notTaken||taken;
-}
+        return dp[n][k]=pick||notPick;
+    }
 public:
     bool canPartition(vector<int>& nums) {
        
@@ -25,6 +20,6 @@ public:
 
         vector<vector<int>> dp(nums.size(),vector<int>((sum/2)+1,-1));
         if(sum & 1) return false;
-         return f(nums.size()-1,sum/2,nums,dp);
+         return f(nums,nums.size()-1,sum/2,dp);
     }
 };

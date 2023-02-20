@@ -1,51 +1,34 @@
 class Solution {
-
-private:
-void bfs(int row, int col, vector<vector<int>>& vis, vector<vector<char>> grid,int n, int m)
-{
-    vis[row][col] = 1;
-    queue<pair<int,int>> q;
-    q.push({row,col});
-
-    while(!q.empty())
+    void dfs(int i,int j,vector<vector<char>>& grid)
     {
-        row = q.front().first;
-        col = q.front().second;
-        q.pop();
-        int delrow[] = {1,0,-1,0};
-        int delcol[] = {0,-1,0,1};
-        for(int i=0;i<4;i++)
-        {
-            int nrow = row + delrow[i];
-            int ncol = col + delcol[i];
-            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !vis[nrow][ncol] && grid[nrow][ncol]=='1')
-            {
-                vis[nrow][ncol] = 1;
-                q.push({nrow,ncol});
-            }
+        if(i<0||j<0||i>=grid.size()||j>=grid[0].size()||grid[i][j]=='0')
+            return;
+        grid[i][j]='0';
+                    dfs(i-1,j,grid);
+                    dfs(i,j-1,grid);
+                    dfs(i+1,j,grid);
+                    dfs(i,j+1,grid);
     }
-    }
-
-}
-
 public:
     int numIslands(vector<vector<char>>& grid) {
-        int n = grid.size();
-        int m = grid[0].size();
-        int islands = 0;
-        vector<vector<int>> vis(n,vector<int>(m,0));
-
-        for(int i=0;i<n;i++)
+        int r=grid.size();
+        int c=grid[0].size();
+        // vector<vector<int>> vis(r,(vector<int>(c,0)));
+        int ans=0;
+        
+        for(int i=0;i<r;i++)
         {
-            for(int j=0;j<m;j++)
+            for(int j=0;j<c;j++)
             {
-                if(!vis[i][j] && grid[i][j]=='1')
+                if(grid[i][j]=='1')
                 {
-                    islands++;
-                    bfs(i,j,vis,grid,n,m);
+                      cout<<i<<" "<<j<<endl;
+
+                    ans++;
+                    dfs(i,j,grid);
                 }
             }
         }
-        return islands;
+        return ans;
     }
 };

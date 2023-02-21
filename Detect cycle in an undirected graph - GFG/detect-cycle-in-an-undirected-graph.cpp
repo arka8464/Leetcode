@@ -23,7 +23,7 @@ class Solution {
                       vis[adjNodes]=1;
                       q.push({adjNodes,currNode});
                   }
-                 else if(parNode!=adjNodes)
+                 else if(vis[adjNodes]==1&&parNode!=adjNodes)//it means that the adj node is visited before but it is not it's parent node hence it have been visited by any other node thus a cycle is present  
                       return true;
                
            }

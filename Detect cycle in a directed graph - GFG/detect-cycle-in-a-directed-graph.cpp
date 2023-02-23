@@ -5,38 +5,33 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
     private:
-    bool dfs(vector<int> adj[],int vis[],int pathVis[],int start)
-    {
-        vis[start]=1;
-        pathVis[start]=1;
-        
-        for(auto adjNodes:adj[start])
-        {
-            if(vis[adjNodes]==0)
-            {
-                if(dfs(adj,vis,pathVis,adjNodes)==true)return true;//to visit the nodes
-            }
-            //if visited in same path 
-            else if(vis[adjNodes]==1&&pathVis[adjNodes]==1)
-               return true;
-        }
-        pathVis[start]=0;
-        return false;
-    }
+    
   public:
     bool isCyclic(int V, vector<int> adj[]) {
-        int vis[V]={0};
-        int pathVis[V]={0};
-        
-        for(int i=0;i<V;i++)
-        {
-            if(vis[i]==0)
+        int indegree [V]={0};
+            for(int i=0;i<V;i++)
             {
-                if(dfs(adj,vis,pathVis,i)==true)
-                return true;
+                for(auto adjNodes:adj[i])
+                   indegree[adjNodes]++;
             }
-        }
-        return false;
+            queue<int>q;
+            
+            for(int i=0;i<V;i++){
+                if(indegree[i]==0)
+                 q.push(i);
+            }
+            vector<int> topo;
+            while(!q.empty()){
+                int frnt=q.front();
+                q.pop();
+                topo.push_back(frnt);
+                for( auto it:adj[frnt])
+                  {indegree[it]--;
+                if(indegree[it]==0)
+                  q.push(it);}
+            }
+            
+            return !(topo.size()==V);
     }
 };
 

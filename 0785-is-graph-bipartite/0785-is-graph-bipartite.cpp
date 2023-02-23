@@ -1,31 +1,19 @@
 class Solution {
     
-    bool bfs(vector<vector<int>>& graph,int start,vector<int> &col)
+    bool dfs(vector<vector<int>>& graph,int start,vector<int> &col,int currCol)
     {
+        
        
-        queue<int> q;
-        
-        q.push(start);
-        
-        // bool col=false;
-        col[start]=0;
-        while(!q.empty())
+        col[start]=currCol;
+        for(auto adjNodes: graph[start])
         {
-            int frnt = q.front();
-            q.pop();
-             
-            for(auto adjNodes: graph[frnt])
-            {
-                cout<<!col[frnt]<<" "<<frnt<<endl;
-                if(col[adjNodes]==-1)//not colored at all
-                  {
-                    col[adjNodes] = !col[frnt];
-                    q.push(adjNodes);      
-                }
-                else if(col[adjNodes] == col[frnt])
-                    return false;
-                
+            if(col[adjNodes]==-1)
+            {  
+                   if(dfs(graph,adjNodes,col,!currCol)==false)
+                       return false;
             }
+            else if(col[adjNodes]==currCol)
+                return false;
         }
         return true;
     }
@@ -40,7 +28,7 @@ public:
         {
             if(col[i]==-1)
             {
-                if (bfs(graph,i,col)==false)
+                if (dfs(graph,i,col,0)==false)
                     return false;
             }
         }

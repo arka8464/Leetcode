@@ -23,12 +23,12 @@ public:
                 prime.push_back(i);
 
         int n=nums.size();
-     int flg = 0;
+        int flg = 0;
         int prev = nums[n-1];
         for(int i=n-2; i>=0; i--){
-            if(nums[i]<prev){prev = nums[i]; continue;}
+            if(nums[i]<prev){prev = nums[i]; continue;}// we continue if prev element is smaller than current one 
             flg = 1;
-            for(int sub=0; sub<prime.size() && prime[sub]<nums[i]; sub++){
+            for(int sub=0; sub<prime.size() && prime[sub]<nums[i]; sub++){// if prev is larger than the current element then we run a loop in the prime number so that it comes lesser than current elment and if the current element become smaller than prev one then we berak the loop
                 if(nums[i]-prime[sub]<prev){
                     prev = nums[i]-prime[sub];
                     flg = 0;

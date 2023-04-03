@@ -11,24 +11,32 @@ class Solution
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
+      
+        // vector<vector<pair<int,int>>> adj;
+        // for(int i=0;i<V;i++)
+        // {
+        //     adj[adjGiven[0]].push_back({adjGiven[1],adjGiven[2]});
+        //     adj[adjGiven[1]].push_back({adjGiven[0],adjGiven[2]});
+        // }
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        vector<int> dis(V,1e9);
+          vector<int>dis(V,1e8);
+        pq.push({0,S});
         dis[S]=0;
-        pq.push({S,0});
         
         while(!pq.empty())
         {
-            auto topDis=pq.top().second;
-            auto topNode=pq.top().first;
+            int frntWt=pq.top().first;
+            int frntNode=pq.top().second;
             pq.pop();
-            for(auto it:adj[topNode])
+            // cout<<pq.top().second<<endl;
+            for(auto it:adj[frntNode])
             {
-                auto adjDis=it[1];
-                auto adjNode=it[0];
-                if(topDis+adjDis<dis[adjNode])
+                int adjNode=it[0];
+                int adjWt=it[1];
+                if(adjWt+frntWt<dis[adjNode])
                 {
-                    dis[adjNode]=topDis+adjDis;
-                    pq.push({adjNode,topDis+adjDis});
+                    dis[adjNode]=adjWt+frntWt;
+                    pq.push({adjWt+frntWt,adjNode});
                 }
             }
         }

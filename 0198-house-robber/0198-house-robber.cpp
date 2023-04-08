@@ -1,18 +1,21 @@
 class Solution {
-public:
-    int rob(vector<int>& house) {
-  vector<int > dp(house.size(),-1);
-         dp[0]=house[0];
+    int f(int ind,vector<int>& moni,vector<int>& dp)
+    {
+        if(ind<0)
+            return 0;
         
-        for(int i=1;i<house.size();i++)
-        {
-            int take=house[i];
-            if(i>1)
-                take+= dp[i-2];
-            
-            int nottake=dp[i-1];
-            dp[i]=max(take,nottake);
-        }
-        return dp[house.size()-1];
+        if(dp[ind]!=-1)
+            return dp[ind];
+        int notpick=f(ind-1,moni,dp);
+        
+        int pick=moni[ind]+f(ind-2,moni,dp);
+        
+        return dp[ind]=max(notpick,pick);
+        
+    }
+public:
+    int rob(vector<int>& nums) {
+        vector<int> dp(nums.size()+1,-1);
+        return f(nums.size()-1,nums,dp);
     }
 };

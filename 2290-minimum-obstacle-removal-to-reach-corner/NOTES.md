@@ -1,0 +1,2 @@
+here the dp will not be applicable as here we can come back to the cell we have travelled once .
+In dp such possibility is not considered , dp te ek i cell ke ghure ese visit korar provision nei tai ekhane dp kaj korbe na ,ekhane amader graphs lagate hobe ba djikstra lagate hobe

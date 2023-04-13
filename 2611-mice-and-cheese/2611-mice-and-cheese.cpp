@@ -14,13 +14,15 @@ public:
         // int secCnt=reward1.size()
         // for(auto it:v)
         //     cout<<it.first<<" "<<it.second<<endl;
+        
+        
+        
         int i=0;
         for(;i<k;i++)
            {
             ans+=reward1[v[i].second];
            }
         
-        // sort(v.begin(),v.end(),compare2);
         for(;i<reward2.size();i++)
            {
             ans+=reward2[v[i].second];

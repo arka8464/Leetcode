@@ -1,31 +1,23 @@
 class Solution {
-    int LCS(string s1,string s2)
+     int lcs(string &text1, string &text2,int ind1,int ind2,vector<vector<int>> &dp)
     {
-        int l1=s1.size();
-        int l2=s2.size(); 
-        vector<vector<int>>dp(l1+1,vector<int>(l2+1,-1));
-        //we don't represent the base case involving 0 for negative indexes 
-        //instead we do them for zero 
-        for(int i=0;i<=l1;i++)dp[i][0]=0;
-        for(int i=0;i<=l2;i++)dp[0][i]=0;
+        if(ind1<0||ind2<0)return 0;
         
-        for(int i=1;i<=l1;i++)
-        {
-            for(int j=1;j<=l2;j++)
-            {
-                 if(s1[i-1]==s2[j-1])
-            dp[i][j]= 1+ dp[i-1][j-1];
-        else 
-             dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-            }
-        }
-        return dp[l1][l2];
-    } 
-    
+        if(dp[ind1][ind2]!=-1)
+            return dp[ind1][ind2];
+        int match=0;
+        if(text1[ind1]==text2[ind2])
+         match=1+lcs(text1,text2, ind1-1, ind2-1,dp);
+        
+        int notMatch=0+max(lcs(text1,text2, ind1-1, ind2,dp),lcs(text1,text2, ind1, ind2-1,dp));
+        
+        return dp[ind1][ind2]=max(match,notMatch);
+    }
 public:
-    int longestPalindromeSubseq(string s1) {
-       string s2=s1;
-        reverse(s2.begin(),s2.end());
-        return LCS(s1,s2);
+    int longestPalindromeSubseq(string s) {
+        string s1=s;
+        reverse(s1.begin(),s1.end());
+          vector<vector<int>> dp(s.size(),vector<int>(s1.size(),-1));
+        return lcs(s,s1,s.size()-1,s1.size()-1,dp);
     }
 };

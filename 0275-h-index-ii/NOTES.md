@@ -1,0 +1,1 @@
+https://leetcode.com/problems/h-index-ii/discuss/693427/C%2B%2B-or-BOTH-O(logn)-and-O(n)-solution-with-explanation

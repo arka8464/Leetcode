@@ -1,60 +1,45 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* ptr1, ListNode* ptr2) {
-        if(!ptr1||!ptr2)
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+       ListNode*p1= list1;
+       ListNode*p2= list2;
+    ListNode*pf = new ListNode(-1e9) ;
+      ListNode*pf_head=pf;   
+        while(p1&&p2)
         {
-            return !ptr1?ptr2:ptr1;
-        }
-      
-        ListNode*head= ptr1;
-
-        if(ptr1&&ptr2)
-        {
-            if(ptr1->val<=ptr2->val)
+            if(p1->val<=p2->val)
             {
-                ptr1=ptr1->next;
+               ListNode*temp= p1->next;
+               p1->next=NULL;
+                pf->next=p1;
+                pf=pf->next;
+                p1=temp;
             }
             else
-                
-             {  
-                head=ptr2;
-                ptr2=ptr2->next;
-            }
-
-        }
-                    
-
-  ListNode*rear=head;
-        while(ptr1&&ptr2)
-        {
-            // cout<<ptr1->val<<" "<<ptr2->val<<endl;
-            //                 cout<<rear->val<<endl;
-            if(ptr1->val<=ptr2->val)
-               {
-                
-                rear->next=ptr1;
-                ptr1=ptr1->next;
-               }
-            else
             {
-                rear->next=ptr2;
-                ptr2=ptr2->next; 
+               ListNode*temp= p2->next;
+               p2->next=NULL;
+                pf->next=p2;
+                pf=pf->next;
+                p2=temp; 
             }
-            rear=rear->next;
         }
-        while(ptr1)
-        {
-          rear->next=ptr1;
-                ptr1=ptr1->next; 
-            rear=rear->next;
-        }
-         while(ptr2)
-        {
-          rear->next=ptr2;
-                ptr2=ptr2->next; 
-            rear=rear->next;
-        }
-        rear->next=NULL;
-        return head;
+        
+        if(p1)
+            pf->next=p1;
+        if(p2)
+            pf->next=p2;
+
+        return pf_head->next;
     }
 };

@@ -11,38 +11,42 @@
  */
 class Solution {
 public:
-    vector<vector<int> > zigzagLevelOrder(TreeNode* root) {
-    if (root == NULL) {
-        return vector<vector<int> > ();
-    }
-    vector<vector<int> > result;
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(!root)
+            return ans;
+       
+        queue<TreeNode*>q;
+        
+        q.push(root);
+        bool frontCheck=true;
+        while(!q.empty())
+        {
+            int sz=q.size();
+            cout<<"q.size()"<<q.size()<<endl;
+            vector<int>tmp(sz);
+            for(int i=0;i<sz;i++)
+             {
+                cout<<"i"<<i<<" ";
 
-    queue<TreeNode*> nodesQueue;
-    nodesQueue.push(root);
-    bool leftToRight = true;
+                TreeNode*frnt=q.front();
+                q.pop();
+                                cout<<"frnt->val"<<frnt->val<<endl;
 
-    while ( !nodesQueue.empty()) {
-        int size = nodesQueue.size();
-        vector<int> row(size);
-        for (int i = 0; i < size; i++) {
-            TreeNode* node = nodesQueue.front();
-            nodesQueue.pop();
+                if(frontCheck)
+                    tmp[i]=frnt->val;
+                else
+                    tmp[sz-1-i]=frnt->val;
+            if(frnt->left)
+                q.push(frnt->left);
+            if(frnt->right)
+                q.push(frnt->right);                
+             }
+                        
+        frontCheck=!frontCheck;
 
-            // find position to fill node's value
-            int index = (leftToRight) ? i : (size - 1 - i);
-
-            row[index] = node->val;
-            if (node->left) {
-                nodesQueue.push(node->left);
-            }
-            if (node->right) {
-                nodesQueue.push(node->right);
-            }
+            ans.push_back(tmp);
         }
-        // after this level
-        leftToRight = !leftToRight;
-        result.push_back(row);
+        return ans;
     }
-    return result;
-}
 };

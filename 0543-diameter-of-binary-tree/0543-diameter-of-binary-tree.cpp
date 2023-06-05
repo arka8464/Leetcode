@@ -10,33 +10,22 @@
  * };
  */
 class Solution {
-    int height(TreeNode* root)
+    int height(TreeNode* root,int& ans)
     {
         if(!root)
             return 0;
-        if(root&&!root->left&&!root->right)
-            return 1;
-        
-        return 1+max(height(root->left),height(root->right));
+       int leftHeight=height(root->left,ans);
+        int rightHeight=height(root->right,ans);
+        ans=max(ans,rightHeight+leftHeight);
+        return 1+max(leftHeight,rightHeight);
     }
 public:
     int diameterOfBinaryTree(TreeNode* root) {
         if(!root)
             return 0;
-        int ans=INT_MIN;
-           
-        int leftHeight=height(root->left);
-        int rightHeight=height(root->right);
-
-        ans=max(ans,leftHeight+rightHeight);//ekhane largest diameter thorugh root pelm
-        
-        ans=max(ans,diameterOfBinaryTree(root->left));
-        ans=max(ans,diameterOfBinaryTree(root->right));
-        
-        return ans;
-
-        
-        
-        
+        int ans=0;
+        height(root,ans);
+             
+        return ans;        
     }
 };

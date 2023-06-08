@@ -8,68 +8,73 @@
  * };
  */
 class Solution {
-public:
-    void markParents(TreeNode* root,unordered_map<TreeNode*,TreeNode*> &track,TreeNode* target){
-        queue<TreeNode*> q;
+    void markParent(unordered_map<TreeNode*,TreeNode*> &parentTrack,TreeNode*root)
+    {
+        queue<TreeNode*>q;
         q.push(root);
-
-        while(!q.empty()){
-            TreeNode* curr=q.front();
+        
+        while(!q.empty())
+        {
+            TreeNode* frnt=q.front();
             q.pop();
-            if(curr->left){
-                track[curr->left]=curr;
-                q.push(curr->left);
+            if(frnt->left)
+            {
+                parentTrack[frnt->left]=frnt;
+                q.push(frnt->left);
             }
-            if(curr->right){
-                track[curr->right]=curr;
-                q.push(curr->right);
+            
+            if(frnt->right)
+            {
+                parentTrack[frnt->right]=frnt;
+                q.push(frnt->right);
             }
         }
-
-
     }
+public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-
-        unordered_map<TreeNode*,TreeNode*> track;
-        markParents(root,track,target);
-
-        unordered_map<TreeNode*,bool> visited;
-        vector<int> ans;
-        if(!root)return ans;
-        queue<TreeNode*> q;
+        unordered_map<TreeNode*,TreeNode*> parentTrack;//ekhane node r or parent er address gulo store korchi 
+        markParent(parentTrack,root);//function to initialize the parentTrack
+        
+        unordered_map<TreeNode*,bool> vis;//ebar target node theke bfs korbo jate distacnce bar korte pari
+        queue<TreeNode*>q;
         q.push(target);
-        visited[target]=true;
-        int curr_level=0;
-        while(!q.empty()){
-            int size=q.size();
-            if(curr_level++==k){
+        vis[target]=1;
+        int currLevel=0;
+        while(!q.empty())
+        {
+            int sz=q.size();
+            if(currLevel==k)
                 break;
-            }
-
-            for(int i=0;i<size;i++){
-                TreeNode* curr=q.front();
-                q.pop();
-                if(curr->left && !visited[curr->left]){
-                    q.push(curr->left);
-                    visited[curr->left]=true;
-                }
-                if(curr->right && !visited[curr->right]){
-                    q.push(curr->right);
-                    visited[curr->right]=true;
-                }
-                if(track[curr] && !visited[track[curr]]){
-                    q.push(track[curr]);
-                    visited[track[curr]]=true;
-                }
-                
-
-            }
-        }
-        while(!q.empty()){
-            TreeNode* curr=q.front();
+            currLevel++;
+            for(int i=0;i<sz;i++)
+            {
+            TreeNode*frnt=q.front();
             q.pop();
-            ans.push_back(curr->val);
+                
+                if(frnt->left&&!vis[frnt->left])
+                {
+                    q.push(frnt->left);
+                    vis[frnt->left]=1;
+                }
+                if(frnt->right&&!vis[frnt->right])
+                {
+                    q.push(frnt->right);
+                    vis[frnt->right]=1;
+                }
+                if(parentTrack[frnt]&&!vis[parentTrack[frnt]])
+                {
+                     q.push(parentTrack[frnt]);
+                    vis[parentTrack[frnt]]=1;
+                }
+            }
+            
         }
-        return ans;
+        vector<int>ans;
+            while(!q.empty())
+            {
+                ans.push_back(q.front()->val);
+                q.pop();
+            }  
+            return ans;
     }
 };

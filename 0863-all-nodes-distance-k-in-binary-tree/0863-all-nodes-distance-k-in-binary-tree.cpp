@@ -8,25 +8,28 @@
  * };
  */
 class Solution {
-    void markParent(unordered_map<TreeNode*,TreeNode*> &parentTrack,TreeNode*root)
+     void markParent(unordered_map<TreeNode*,TreeNode*> &m,TreeNode* root)
     {
         queue<TreeNode*>q;
         q.push(root);
-        
         while(!q.empty())
         {
-            TreeNode* frnt=q.front();
-            q.pop();
-            if(frnt->left)
-            {
-                parentTrack[frnt->left]=frnt;
-                q.push(frnt->left);
-            }
+          int sz=q.size();
             
-            if(frnt->right)
+            for(int i=0;i<sz;i++)
             {
-                parentTrack[frnt->right]=frnt;
-                q.push(frnt->right);
+                TreeNode* frnt=q.front();
+                q.pop();
+                if(frnt->left)
+                {
+                    m[frnt->left]=frnt;
+                    q.push(frnt->left);
+                }
+                 if(frnt->right)
+                {
+                    m[frnt->right]=frnt;
+                    q.push(frnt->right);
+                }
             }
         }
     }

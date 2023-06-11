@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool carPooling(vector<vector<int>>& trips, int capacity) {
-        map<int,int>m;
+        vector<int> m(1001,0);
         
         for(auto it:trips)
         {
@@ -12,13 +12,11 @@ public:
 
         }
         
-        int currCap=0;
-        for(auto it:m)
-        {
-            currCap+=it.second;
-            if(currCap>capacity)
-                return false;
-        }
-        return true;
+        int currCap=capacity;
+       for(int i=0;i<1001&&currCap>=0;i++)
+       {
+           currCap-=m[i];
+       }
+        return currCap>=0;
     }
 };

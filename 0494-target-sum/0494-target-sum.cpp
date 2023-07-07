@@ -1,45 +1,35 @@
 class Solution {
-    int countPartitionsUtil(int ind, int target, vector<int>& arr, vector<vector
-<int>> &dp){
 
-     if(ind == 0){
-        if(target==0 && arr[0]==0)
-            return 2;
-        if(target==0 || target == arr[0])
-            return 1;
-        return 0;
-    }
-    
-    if(dp[ind][target]!=-1)
-        return dp[ind][target];
+    int f(vector<int>& nums, int target,int ind, vector<vector<int>> &dp)
+    {
+        if(ind==0)
+        {
+            if(target==0&&nums[0]==0)
+                return 2;
+            if(target==0||nums[0]==target)
+                return 1;
+            return 0;
+        }
+        if(dp[ind][target]!=-1)
+            return dp[ind][target];
+        int pick=0;
+        if(nums[ind]<=target)
+            pick=f(nums,target-nums[ind],ind-1,dp);
+        int notPick=f(nums,target,ind-1,dp);
         
-    int notTaken = countPartitionsUtil(ind-1,target,arr,dp);
-    
-    int taken = 0;
-    if(arr[ind]<=target)
-        taken = countPartitionsUtil(ind-1,target-arr[ind],arr,dp);
-        
-    return dp[ind][target]= (notTaken + taken);
-}
-
-int countPartitions(int d, vector<int>& arr){
-    int n = arr.size();
-    int totSum = 0;
-    for(int i=0; i<arr.size();i++){
-        totSum += arr[i];
+        return dp[ind][target]=pick+notPick;
     }
-    
-    //Checking for edge cases
-    if(totSum-d<0) return 0;
-    if((totSum-d)%2==1) return 0;
-    
-    int s2 = (totSum-d)/2;
-    
-    vector<vector<int>> dp(n,vector<int>(s2+1,-1));
-    return countPartitionsUtil(n-1,s2,arr,dp);
-}
-public:
+    public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        return countPartitions(target , nums);
+        
+        int totalSum=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            totalSum+=nums[i];
+        }
+        if(totalSum-target<0||(totalSum-target)%2!=0)
+            return 0;
+        vector<vector<int>> dp(nums.size()+1,vector<int>(totalSum+1,-1));
+        return f(nums,(totalSum-target)/2,nums.size()-1,dp);
     }
 };

@@ -15,12 +15,11 @@ public:
 //             ans.push_back(nums[i]);
 //         nums=ans;
 
-        if(k==0||nums.size()<=1)
-            return ;
+      
       k=k%nums.size();
 
-           if(k==0)
-             return ;
+           // if(k==0)
+           //   return ;
         reverse(nums.begin(),nums.end());
         reverse(nums.begin(),nums.begin()+k);
         reverse(nums.begin()+k,nums.end());

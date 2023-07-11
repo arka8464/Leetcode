@@ -20,22 +20,41 @@ class Solution {
     }
 public:
     int lengthOfLIS(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,0));
-        // return f(nums,0,-1,dp);
+        //** normal tabulation//
+//         vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,0));
+//         // return f(nums,0,-1,dp);
        int n=nums.size();
         
-        for(int ind=n-1;ind>=0;ind--)
-        {
-            for(int prev =ind-1;prev>=-1;prev--)//ekhane ind-1 er cheye boro hote parbe na karon eta prev index 
-            {
-             int pick=0,notPick=0;
-             if(prev==-1||nums[ind]>nums[prev])
-                pick=   1 +  dp[ind+1][ind+1];
+//         for(int ind=n-1;ind>=0;ind--)
+//         {
+//             for(int prev =ind-1;prev>=-1;prev--)//ekhane ind-1 er cheye boro hote parbe na karon eta prev index 
+//             {
+//              int pick=0,notPick=0;
+//              if(prev==-1||nums[ind]>nums[prev])
+//                 pick=   1 +  dp[ind+1][ind+1];
              
-              notPick=dp[ind+1][prev+1];
-              dp[ind][prev+1]=max(pick,notPick);
+//               notPick=dp[ind+1][prev+1];
+//               dp[ind][prev+1]=max(pick,notPick);
+//             }
+//         }
+//         return dp[0][-1+1];
+    
+         vector<int> dp(n,1);// ekhane amra oi element e ending korche erom LIS er length //store korbo
+        
+        int ans=1;
+        
+        for(int i=1;i<nums.size();i++)
+        {
+            for(int prev=0;prev<i;prev++)
+            {
+                if(nums[prev]<nums[i])
+                  dp[i]=max(dp[i],1+dp[prev]);
             }
+            ans=max(ans,dp[i]);
         }
-        return dp[0][-1+1];
+        
+        
+        return ans;
     }
+    
 };

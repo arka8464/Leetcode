@@ -20,7 +20,22 @@ class Solution {
     }
 public:
     int lengthOfLIS(vector<int>& nums) {
-        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,-1));
-        return f(nums,0,-1,dp);
+        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,0));
+        // return f(nums,0,-1,dp);
+       int n=nums.size();
+        
+        for(int ind=n-1;ind>=0;ind--)
+        {
+            for(int prev =ind-1;prev>=-1;prev--)//ekhane ind-1 er cheye boro hote parbe na karon eta prev index 
+            {
+             int pick=0,notPick=0;
+             if(prev==-1||nums[ind]>nums[prev])
+                pick=   1 +  dp[ind+1][ind+1];
+             
+              notPick=dp[ind+1][prev+1];
+              dp[ind][prev+1]=max(pick,notPick);
+            }
+        }
+        return dp[0][-1+1];
     }
 };

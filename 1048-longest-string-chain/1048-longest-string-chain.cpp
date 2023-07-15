@@ -1,77 +1,65 @@
 class Solution {
+   bool f(string &s1, string &s2)
+{
+    if(s1.length()-s2.length()!=1) return false;
+    int i=0,j=0;
+    while(i<s1.length())
+    {
+        if(s1[i]==s2[j])
+        {
+            i++;j++;
+        }
+        else
+            i++;
+    }
+    if(i==s1.length() && j== s2.length()) return true;
+    else return false;
+}
+   static bool comp(string &s1,string &s2)
+    {
+        return s1.size()<s2.size();
+    }
+//     int f(vector<string>& words,int ind,int next)
+//     {
+//         if(ind<0)
+//             return 0;
+//         if (words[next].size()-words[ind].size()!=1)
+//             return 0;
+//         sort(words.begin(),words.end(),comp);
+//         int pick=0,notPick=0;
+//         if(next==-1||predecessor(words[ind],words[next]))
+//             pick=1+f(words,ind-1,ind);
+        
+//         notPick=f(words,ind-1,next);
+        
+//         return max(pick,notPick);
+//     }
 public:
-    vector<int> adj[1001];
-    int vis[10001];
-    
-    static bool comp(string a, string b){
-        if(a.size()!=b.size())
-        return a.size()<b.size();
-        return a<b;
-    }
-    
-    bool isPossible(string a, string b){
-        int ind=-1;
-        int c=0;
-        int n=b.size();
-        for(int j=0;j<n;j++){
-            if(a[j]!=b[j]){
-                ind=j;
-                break;
-            }
-        }
-        if(ind==n-1){
-            if(n>1)
-                return true;
-            else
-                return false;
-        }
-            
-        for(int j=ind+1;j<n;j++){
-            if(a[j-1]!=b[j])
-                return false;
-        }
-        return true;
-    }
-    
-    int dfs(int i){
-        if(vis[i])
-            return 0;
-        int c=1;
-        vis[i]=1;
-        for(auto x: adj[i]){
-            if(!vis[x]){
-                c=max(c, dfs(x)+1);
-            }
-        }
-        return c;
-    }
-    
     int longestStrChain(vector<string>& words) {
-        int n=words.size();
-        sort(words.begin(), words.end(), comp);
-        for(int i=0;i<n;i++){
-            string s1=words[i];
-            int v=s1.size();
-            for(int j=i+1;j<n;j++){
-                string s2=words[j];
-                int w=s2.size();
-                if(w!=v+1)
-                    continue;
-                if(isPossible(s1, s2))
+        
+        // string a="cxbc",b="pcxbc";
+        // cout<<predecessor(a,b);
+        // return f(words,words.size()-1,-1);
+    // return -1;
+       int n=words.size();
+                if(n<2)
+return n;
+       sort(words.begin(),words.end(),comp);
+
+        vector<int>dp(n,1);
+        int maxi= 0;
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(f(words[i],words[j])&& dp[i]<dp[j]+1)
                 {
-                    adj[i].push_back(j);
+                    dp[i]=dp[j]+1;
                 }
             }
+             maxi = max(maxi,dp[i]); 
         }
-        memset(vis,0,sizeof(vis));
-        int ans=0;
-        for(int i=0;i<n;i++){
-            memset(vis,0,sizeof(vis));
-            ans=max(ans, dfs(i));
-            cout<<endl;
+        return maxi;
+        
         }
-        for(auto x: adj[3])
-            cout<<x;
-        return ans;
-    }
 };

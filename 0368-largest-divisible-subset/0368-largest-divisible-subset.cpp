@@ -1,56 +1,66 @@
 class Solution {
+   
 public:
-    vector<int> largestDivisibleSubset(vector<int>& arr) {
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        if(n<2)
+            return nums;
+        vector<int>prev(n);
         
-//         int n=nums.size();
-//         vector<int> arr(n,0);
-//         vector<int> hash(n,0);
-
-//         for(int i=0;i<n;i++)hash[i]=i;
-        int n = arr.size();
-    
-    //sort the array
-    
-    sort(arr.begin(), arr.end());
-
-    vector<int> dp(n,1);
-    vector<int> hash(n,1);
-    
-    for(int i=0; i<=n-1; i++){
+        for(int i=0;i<n;i++)
+            prev[i]=i;
         
-        hash[i] = i; // initializing with current index
-        for(int prev_index = 0; prev_index <=i-1; prev_index ++){
-            
-            if(arr[i]%arr[prev_index] == 0 && 1 + dp[prev_index] > dp[i]){
-                dp[i] = 1 + dp[prev_index];
-                hash[i] = prev_index;
+        vector<int>dp(n,1);
+        int maxIdx=-1;
+        int maxEle=-1;
+
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                                                            // cout<<i<<" "<<j<<endl;
+                // cout<<nums[i]%nums[j]<<" "<<nums[j]%nums[i]<<endl;
+                if(nums[i]%nums[j]==0)
+               {
+
+                    if(dp[j]+1>dp[i])
+                    {
+                        dp[i]=dp[j]+1;
+                        prev[i]=j;
+                        if(dp[i]>maxEle)
+                       { maxIdx=i;
+                        maxEle=dp[i]; }   
+                    }
+                    
+                }
+                
             }
         }
-    }
-    
-    int ans = -1;
-    int lastIndex =-1;
-    
-    for(int i=0; i<=n-1; i++){
-        if(dp[i]> ans){
-            ans = dp[i];
-            lastIndex = i;
-        }
-    }
-    
-    vector<int> temp;
-    temp.push_back(arr[lastIndex]);
-    
-    while(hash[lastIndex] != lastIndex){ // till not reach the initialization value
-        lastIndex = hash[lastIndex];
-        temp.push_back(arr[lastIndex]);    
-    }
-    
-    // reverse the array 
-    reverse(temp.begin(),temp.end());
+         
+        //  for(int i=0;i<n;i++)
+        //  cout<<dp[i]<<" ";
+        // cout<<endl;
+        //  for(int i=0;i<n;i++)
+        //  cout<<prev[i]<<" ";
+        // cout<<endl;
+        // cout<<maxEle<<endl;
+        // cout<<maxIdx<<endl;
 
-    
-    return temp; 
-        
+        // cout<<endl;
+
+        vector<int>ans;
+        if(maxIdx==-1)
+            return {nums[0]};
+        int idx=maxIdx;
+        ans.push_back(nums[idx]);
+
+        while(prev[idx]!=idx)
+        {
+            // cout<<"idx"<<idx<<"prev[idx]"<<prev[idx]<<endl;
+            idx=prev[idx];
+            ans.push_back(nums[idx]);
+        }
+        return ans;
     }
 };

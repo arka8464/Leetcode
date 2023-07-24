@@ -1,30 +1,28 @@
 class Solution {
-    int f(vector<int>& cuts,int i,int j,vector<vector<int>> &dp )
+    
+    int f(int start,int end,vector<int>& cuts,vector<vector<int>> &dp )
     {
-        if(i>j)return 0;
-        
+        if(start>end)
+            return 0;
+        if(dp[start][end]!=-1)
+            return dp[start][end];
         int ans=INT_MAX;
-        if(dp[i][j]!=-1)
-            return dp[i][j];
-        for(int k=i;k<=j;k++)
+        for(int k=start;k<=end;k++)
         {
-            int cost=cuts[j+1]-cuts[i-1]+f(cuts,i,k-1,dp)+f(cuts,k+1,j,dp);
-            ans=min(ans,cost);
+            int partitionCost=cuts[end+1]- cuts[start-1];
+            int leftPartitionCost=f(start,k-1,cuts,dp);
+            int rightPartitionCost=f(k+1,end,cuts,dp);
+            ans=min(ans,partitionCost+leftPartitionCost+rightPartitionCost);
         }
-        return dp[i][j]=ans;
+        return dp[start][end]= ans;
     }
 public:
     int minCost(int n, vector<int>& cuts) {
-        int c=cuts.size();
-        cuts.push_back(n);
-        cuts.insert(cuts.begin(),0);
+        int m=cuts.size();
         sort(cuts.begin(),cuts.end());
-        
-        // for(auto it:cuts)
-        //     cout<<it<<" ";
-        // cout<<endl<<c<<endl;
-        
-        vector<vector<int>> dp(c+1,vector<int>(c+1,-1));
-        return f(cuts,1,c,dp);
+        cuts.push_back(n);
+         cuts.insert(cuts.begin(), 0);
+        vector<vector<int>> dp(m+1,vector<int>(m+1,-1));
+        return f(1,m,cuts,dp);
     }
 };
